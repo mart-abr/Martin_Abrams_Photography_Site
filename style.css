@@ -1,0 +1,635 @@
+/* Dark Cinematic Base */
+
+/* -------------------------
+   Variables (easy tuning)
+   ------------------------- */
+:root{
+  --bg:#0f0f10;             /* page background */
+  --panel:#141414;          /* gallery panels */
+  --muted:#9aa07a;          /* green used in buttons/accents */
+  --muted-strong:#5a7a2f;   /* darker green */
+  --text:#e8e6df;           /* main text */
+  --subtle:#bfbfb9;         /* captions, secondary */
+  --accent-border: rgba(90,122,47,0.15);
+  --glass: rgba(255,255,255,0.03);
+  --max-width:1200px;
+  --serif: Georgia, "Palatino Linotype", "Book Antiqua", serif;
+  --script: "Brush Script MT", "Dancing Script", cursive; /* fallback script */
+}
+body {
+  /* remove any other padding-top rules and keep this single line */
+  padding-top: var(--header-height);
+}
+
+body.lightbox-open {
+  overflow: hidden;
+}
+
+/* keep hero at zero margin (clean baseline) */
+.hero-section {
+  margin-top: 0;
+}
+
+/* -------------------------
+   Global
+   ------------------------- */
+*{box-sizing:border-box}
+html,body{
+  height:100%;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--serif);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+}
+a{color:var(--muted); text-decoration:none;}
+
+/* -------------------------
+   Accessibility utilities
+   ------------------------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* -------------------------
+   Page container & sections
+   ------------------------- */
+/* These sections stay constrained */
+#gallery,
+.about-section,
+.site-footer {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding-left:20px;
+  padding-right:20px;
+}
+
+
+/* Gallery section must span full width */
+.gallery-section {
+  width: 100%;
+}
+
+
+/* -------------------------
+   Header – permanently fixed (SmugMug style)
+   ------------------------- */
+/* ============================================
+   HEADER LAYOUT B1 – Two-row stacked header
+   ============================================ */
+.site-header.two-row {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+
+  background: rgba(15,15,16,0.82);
+  backdrop-filter: blur(8px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 18px 0 12px; /* balanced vertical spacing */
+  box-shadow:
+    0 2px 10px rgba(0,0,0,0.4),
+    0 1px 0 rgba(255,255,255,0.03) inset;
+}
+
+/* Row 1 — Logo centered */
+.header-top {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.logo {
+  margin: 0;
+  font-family: var(--script);
+  font-size: 2rem;
+  letter-spacing: 1px;
+  color: var(--text);
+}
+
+/* Row 2 — Categories centered */
+.header-bottom {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* Adjust header height variable for HERO offset */
+:root {
+  --header-height: 200px; /* NEW height for 2-row layout */
+}
+
+/* -------------------------------------
+   Main Category Buttons (nav-btn)
+-------------------------------------- */
+
+.nav-btn {
+  background: transparent;
+  color: var(--muted);
+  border: 1.8px solid rgba(90,122,47,0.18);
+  padding: 8px 14px;
+  border-radius: 24px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all .18s ease;
+  font-family: var(--serif);
+  font-size: 0.95rem;
+}
+
+.nav-btn:hover {
+  transform: translateY(-2px);
+  color: var(--text);
+  background: rgba(90,122,47,0.12);
+}
+
+.nav-btn.active,
+.nav-btn.section-active {
+  background: var(--muted);
+  color: var(--bg);
+  border-color: transparent;
+  box-shadow:
+    0 6px 22px rgba(74,93,35,0.12),
+    0 1px 0 rgba(255,255,255,0.02) inset;
+}
+
+
+/* -------------------------------------
+   Subcategory buttons (match nav-btn but slightly smaller)
+-------------------------------------- */
+.sub-btn {
+  background: transparent;
+  color: var(--muted);
+  border: 1.6px solid rgba(90,122,47,0.12);
+  padding: 6px 12px;              /* slightly smaller */
+  border-radius: 20px;            /* slightly smaller */
+  cursor: pointer;
+  font-weight: 600;
+  transition: all .18s ease;
+  font-family: var(--serif);
+  font-size: 0.92rem;             /* slightly smaller font */
+}
+
+.sub-btn:hover,
+.sub-btn.active {
+  background: var(--muted);
+  color: var(--bg);
+  border-color: transparent;
+  box-shadow: 0 4px 18px rgba(74,93,35,0.14),
+              0 1px 0 rgba(255,255,255,0.02) inset;
+}
+
+/* -------------------------------------
+   Accessibility – Keyboard focus
+-------------------------------------- */
+
+.nav-btn:focus-visible,
+.sub-btn:focus-visible {
+  outline: 2px solid rgba(154,160,122,0.8);
+  outline-offset: 3px;
+}
+
+
+/* -------------------------
+   Hero
+   ------------------------- */
+/* HERO – cinematic green gradient (restored + slightly darker) */
+.hero-section {
+  height: 200px;
+  margin-top: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #48663c 0%,
+      #3c5732 50%,
+      #2f4527 100%
+    );
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.65),
+    inset 0 0 8px rgba(0,0,0,0.25);
+}
+
+
+.hero-text{ text-align:center; color:var(--text) }
+.hero-text h2{
+  margin:0;
+  font-family:var(--script);
+  font-size:2rem;
+  letter-spacing:0.6px;
+}
+.hero-text p{
+  margin:8px 0 0;
+  color:var(--subtle);
+  font-size:1rem;
+  font-family:var(--serif);
+}
+
+/* -------------------------
+   Subcategory bar (dynamic)
+   ------------------------- */
+.subcategory-bar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:6px 0 4px;
+  align-items:center;
+}
+
+.subcategory-bar .sub-btn {
+  background:transparent;
+  color:var(--muted);
+  border:1.6px solid rgba(90,122,47,0.12);
+  padding:7px 12px;
+  border-radius:22px;
+  cursor:pointer;
+  font-weight:600;
+  transition:all .18s ease;
+  font-family:var(--serif);
+}
+.subcategory-bar .sub-btn.active,
+.subcategory-bar .sub-btn:hover {
+  background:var(--muted);
+  color:var(--bg);
+  border-color:transparent;
+}
+
+/* ------------------------------------
+   FIXED LAYOUT — Subcategories in rows
+------------------------------------ */
+
+/* Gallery wrapper (wrapper only) */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  width: 100%;
+}
+
+
+/* Each subcategory = full-width grid row of cards */
+.photo-group {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  justify-items: center;
+  margin-bottom: 28px;
+  grid-auto-flow: row dense;   /* ← ADD THIS */
+  grid-auto-rows: auto;
+}
+
+/* Heading spans whole row */
+.photo-group .subcategory-heading {
+  grid-column: 1 / -1;
+  margin-bottom: 10px;
+}
+
+
+/* Photo item (keeps your .photo-item structure compatible) */
+.photo-item{
+  background:linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.01));
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  transition: transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  text-align:center;
+  padding-bottom:6px;
+  border:1px solid var(--accent-border);
+  margin-bottom: 14px; /* adjust 10–20px to taste */
+}
+
+.photo-item {cursor: default;}
+
+.photo-item img{
+  width:100%;
+  height:auto;        /* ← FIXED */
+  object-fit:cover;
+  aspect-ratio: 3/2;  /* ← keeps them uniform (you can change this) */
+  cursor: zoom-in;
+}
+
+.photo-item:hover{ transform: translateY(-6px); box-shadow: 0 18px 45px rgba(0,0,0,0.7); }
+.photo-item:hover img{ transform: scale(1.03) }
+
+/* Caption */
+/* Equal-height captions */
+.photo-item .caption{
+  color:var(--subtle);
+  font-size:0.88rem;
+  padding:8px 10px;
+  margin:6px 6px 0;
+  min-height: 44px;   /* 1–2 lines fit neatly */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+/* rounded active thumbnail + subtle pulse (works with your JS active-thumb class) */
+.photo-item img.active-thumb{
+  outline: 3px solid rgba(90,122,47,0.95);
+  outline-offset:4px;
+  border-radius:6px;
+  box-shadow:0 8px 28px rgba(90,122,47,0.08);
+  animation: thumbPulse 1.8s infinite;
+}
+@keyframes thumbPulse{
+  0%{ box-shadow:0 0 0 rgba(90,122,47,0.06) }
+  50%{ box-shadow:0 0 18px rgba(90,122,47,0.12) }
+  100%{ box-shadow:0 0 0 rgba(90,122,47,0.06) }
+}
+
+/* --------------------------------------------
+   POLISH – Cinematic Subcategory Heading
+--------------------------------------------- */
+.subcategory-heading {
+  width: 100%;
+  text-align: center;
+  margin: 10px 0 4px;         /* tighter top & bottom spacing */
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+.subcategory-heading span {
+  display: inline-block;
+  padding-bottom: 2px;
+  border-bottom: 2px solid rgba(154,160,122,0.55);
+}
+
+
+/* Tighten first group on initial page load */
+#gallery .photo-group:first-of-type {
+    margin-top: 0 !important;
+    padding-top: 4px !important;
+}
+
+
+/* -------------------------
+   Lightbox (full screen viewer)
+   improved look for cinematic theme
+   ------------------------- */
+.lightbox{
+  display:none;
+  position:fixed;
+  inset:0;
+  background: rgba(0,0,0,0.97);
+  z-index:9999;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  transition:opacity .24s ease;
+}
+
+.lightbox.show{ display:flex; opacity:1 }
+.lightbox-img{
+  max-width: 92vw;
+  max-height: 70vh;   /* ← THIS is the key change */
+  width: auto;
+  height: auto;
+  border-radius:10px;
+  box-shadow:
+    0 40px 120px rgba(0,0,0,0.85),   /* deep lift */
+    0 0 0 1px rgba(255,255,255,0.04),/* print edge */
+    0 12px 30px rgba(255,255,255,0.06); /* soft light lift */
+  border:6px solid rgba(0,0,0,0.45);
+}
+
+.lightbox-caption{
+  margin-top:14px;
+  color:var(--subtle);
+  font-size:0.96rem;
+  text-align:center;
+}
+
+/* lightbox arrows */
+.lightbox-prev,
+.lightbox-next{
+  position:fixed;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:36px;
+  color:var(--muted);
+  cursor:pointer;
+  user-select:none;
+  z-index:10050;
+  padding:8px;
+}
+.lightbox-prev{ left:22px } .lightbox-next{ right:22px }
+
+.lightbox-prev,
+.lightbox-next{
+  opacity: 0.35;
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.lightbox:hover .lightbox-prev,
+.lightbox:hover .lightbox-next{
+  opacity: 1;
+}
+
+.lightbox-prev:hover,
+.lightbox-next:hover{
+  transform: translateY(-50%) scale(1.08);
+}
+
+.lightbox-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 92%;
+}
+
+
+/* close button */
+.lightbox .close{
+  position:fixed;
+  right:22px;
+  top:18px;
+  font-size:32px;
+  color:var(--muted);
+  cursor:pointer;
+}
+
+/* Lightbox open animation */
+.lightbox.show {
+  animation: lightboxFadeIn 0.28s ease-out;
+}
+
+/* Lightbox keyboard focus styles */
+.lightbox [role="button"]:focus-visible {
+  outline: 2px solid rgba(154,160,122,0.9);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+.lightbox .close:hover {
+  transform: scale(1.1);
+  color: var(--text);
+}
+
+/* Prevent background scroll when lightbox is open */
+body.lightbox-open {
+  overflow: hidden;
+}
+
+/* Hide focus ring when focus is NOT keyboard-driven */
+.lightbox [role="button"]:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.lightbox [role="button"] {
+  outline: none;
+}
+
+@keyframes lightboxFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+/* -------------------------
+   Contact section
+   ------------------------- */
+.contact-section {
+  margin: 10px auto 60px;
+  max-width: var(--max-width);
+  padding: 0 20px;
+  color: var(--subtle);
+}
+
+.contact-item {
+  margin: 6px 0;
+  font-size: 0.95rem;
+}
+
+.contact-item a {
+  color: var(--muted);
+}
+
+.contact-item a:hover {
+  text-decoration: underline;
+}
+
+
+/* -------------------------
+   About & footer
+   ------------------------- */
+.about-section{
+  margin:30px auto 48px;
+  color:var(--subtle);
+  font-size:1rem;
+}
+.script-heading{
+  font-family:var(--script);
+  font-size:1.5rem;
+  color:var(--text);
+  margin-bottom:10px;
+}
+.site-footer{
+  padding:26px 20px;
+  color:var(--subtle);
+  text-align:center;
+  border-top:1px solid rgba(255,255,255,0.02);
+}
+
+/* -------------------------
+   Responsive tweaks
+   ------------------------- */
+@media (max-width:920px){
+  .hero-section{ height:220px }
+  .logo{ font-size:1.5rem }
+}
+
+/* Lightbox interaction cues */
+.lightbox {
+  cursor: zoom-out;
+}
+
+.lightbox-img {
+  cursor: default;
+}
+
+.lightbox-prev,
+.lightbox-next {
+  cursor: pointer;
+}
+
+/* Zoomable lightbox image */
+
+.lightbox-img {
+  transition: transform 0.25s ease;
+}
+
+.lightbox-img.zoomed {
+  transform: scale(1.8);
+  cursor: grab;
+}
+
+.lightbox-img.zoomed:active {
+  cursor: grabbing;
+}
+
+/* Lightbox zoom cue */
+
+.zoom-hint {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+/* Hide hint once zoomed */
+.lightbox-img.zoomed + .zoom-hint {
+  opacity: 0;
+}
+
+.contact-block {
+  margin-top: 18px;
+  font-size: 0.95rem;
+  color: var(--subtle);
+}
+
+.contact-block a {
+  color: var(--muted);
+}
+
+
