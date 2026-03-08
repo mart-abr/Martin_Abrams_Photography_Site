@@ -1,9 +1,9 @@
 /* ---------- CATEGORY → SUBCATEGORY MAP ---------- */
 
 const categoryMap = {
-  wildlife: ["birds", "insects"],
+  wildlife: ["birds", "insects", "spiders"],
   landscape: ["flowers", "lakes", "leaves", "mountains", "temples", "waterfall"],
-  japanlife: ["neighbourhood", "street"],
+  japanlife: ["home", "neighbourhood", "street"],
   architecture: ["bridge", "churches", "daibutsu", "towers"],
   martialarts: ["katana", "sumo"],
   realestate: ["houses"],
