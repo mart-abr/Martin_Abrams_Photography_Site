@@ -2,11 +2,10 @@
 
 const categoryMap = {
   wildlife: ["birds", "fish","insects", "spiders"],
-  landscape: ["flowers", "lakes", "leaves", "mountains", "temples", "waterfall"],
+  landscape: ["flowers", "lakes", "mountains", "temples", "waterfall"],
   japanlife: ["home", "neighbourhood", "street"],
-  architecture: ["bridge", "churches", "daibutsu", "houses", "roads","towers"],
+  architecture: ["churches", "daibutsu", "houses", "roads","towers"],
   martialarts: ["katana", "sumo"],
-  realestate: ["houses"],
   all: []
 };
 
@@ -20,6 +19,9 @@ const categoryMap = {
 const navButtons = document.querySelectorAll(".nav-btn");
 const groups = document.querySelectorAll(".photo-group");
 const subBar = document.querySelector(".subcategory-bar");
+const aboutBtn = document.getElementById("aboutBtn");
+const aboutSection = document.getElementById("about");
+
 let HEADER_HEIGHT = 200;
 
 function updateHeaderHeight() {
@@ -111,7 +113,26 @@ navButtons.forEach(btn => {
       });
     }
 
+    if (returnFromAboutThumb && btn.dataset.category) {
+
+    returnFromAboutThumb.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+
+    returnFromAboutThumb.classList.add("last-viewed");
+
+    setTimeout(() => {
+      returnFromAboutThumb.classList.remove("last-viewed");
+    }, 4000);
+
+    returnFromAboutThumb = null;
+
+  } else {
+
     scrollToGalleryTop();
+
+  }
   });
 });
 
@@ -185,6 +206,8 @@ announce(isZoomed ? "Zoomed in" : "Zoomed out");
 let currentIndex = 0;
 let visibleImages = [];
 let lastFocusedThumb = null;
+let currentImageElement = null;
+let returnFromAboutThumb = null;
 
 document.querySelectorAll(".photo-item img").forEach(img => {
 
@@ -193,6 +216,7 @@ document.querySelectorAll(".photo-item img").forEach(img => {
 
   function openLightboxFromThumb() {
     lastFocusedThumb = img;
+    currentImageElement = img;
 
     refreshVisibleImages();
     currentIndex = visibleImages.indexOf(img);
@@ -296,6 +320,8 @@ function showPrev() {
 function openAtCurrentIndex() {
   const img = visibleImages[currentIndex];
 
+  currentImageElement = img;
+
   isZoomed = false;
   lightboxImg.classList.remove("zoomed");
 
@@ -348,7 +374,28 @@ function closeLightbox() {
   lightboxImg.classList.remove("zoomed");
   lightbox.classList.remove("show");
 
-  document.body.classList.remove("lightbox-open"); 
+  document.body.classList.remove("lightbox-open");
+  
+if (currentImageElement) {
+
+  const photoItem = currentImageElement.closest(".photo-item");
+
+  photoItem.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+
+  document.querySelectorAll(".return-highlight").forEach(item => {
+   item.classList.remove("return-highlight");
+  });
+
+  photoItem.classList.add("return-highlight");
+
+  setTimeout(() => {
+  photoItem.classList.remove("return-highlight");
+  }, 4000);
+
+}
 
   if (lastFocusedThumb) {
     lastFocusedThumb.focus();
@@ -384,3 +431,15 @@ window.addEventListener("load", () => {
   window.history.scrollRestoration = "manual";
   window.scrollTo(0, 0);
 });
+
+aboutBtn.addEventListener("click", () => {
+
+  returnFromAboutThumb = currentImageElement;
+
+  aboutSection.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+});
+

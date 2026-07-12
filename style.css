@@ -632,4 +632,8 @@ body.lightbox-open {
   color: var(--muted);
 }
 
-
+.photo-item.return-highlight {
+  border-radius: 6px;
+  box-shadow: 0 0 18px rgba(212, 175, 55, 0.9);
+  transition: box-shadow 2s ease;
+}
