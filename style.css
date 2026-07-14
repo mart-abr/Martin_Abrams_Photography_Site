@@ -169,6 +169,27 @@ a{color:var(--muted); text-decoration:none;}
     0 1px 0 rgba(255,255,255,0.02) inset;
 }
 
+/* ---------- ABOUT BUTTON ---------- */
+
+.about-btn {
+  background: transparent;
+  color: var(--muted);
+  border: 1.8px solid rgba(212,175,55,0.65);
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all .18s ease;
+  font-family: var(--serif);
+  font-size: 0.95rem;
+}
+
+.about-btn:hover {
+  transform: translateY(-2px);
+  color: var(--text);
+  background: rgba(90,122,47,0.12);
+  border-color: rgba(212,175,55,0.95);
+}
 
 /* -------------------------------------
    Subcategory buttons (match nav-btn but slightly smaller)

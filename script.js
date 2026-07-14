@@ -61,6 +61,25 @@ function scrollToGalleryTop() {
   window.scrollTo({ top: y, behavior: "smooth" });
 }
 
+function highlightThumbnail(img) {
+  if (!img) return;
+
+  const photoItem = img.closest(".photo-item");
+
+  if (!photoItem) return;
+
+  photoItem.classList.remove("return-highlight");
+
+  // Restart the animation
+  void photoItem.offsetWidth;
+
+  photoItem.classList.add("return-highlight");
+
+  setTimeout(() => {
+    photoItem.classList.remove("return-highlight");
+  }, 4000);
+}
+
 /* Initial state */
 hideSubBar();
 groups.forEach(g => g.style.display = "");
@@ -74,11 +93,32 @@ navButtons.forEach(btn => {
 
     hideSubBar();
 
-    if (cat === "all") {
-      groups.forEach(g => g.style.display = "");
-      scrollToGalleryTop();
-      return;
-    }
+if (cat === "all") {
+  groups.forEach(g => g.style.display = "");
+
+  if (
+    returnFromAboutThumb &&
+    returnFromAboutCategory === "all"
+  ) {
+
+    returnFromAboutThumb.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+
+    highlightThumbnail(returnFromAboutThumb);
+
+    returnFromAboutThumb = null;
+    returnFromAboutCategory = null;
+
+  } else {
+
+    scrollToGalleryTop();
+
+  }
+
+  return;
+}
 
     groups.forEach(g => {
       g.style.display = g.classList.contains(cat) ? "" : "none";
@@ -113,26 +153,33 @@ navButtons.forEach(btn => {
       });
     }
 
-    if (returnFromAboutThumb && btn.dataset.category) {
+if (returnFromAboutThumb) {
+
+  if (returnFromAboutCategory === btn.dataset.category) {
 
     returnFromAboutThumb.scrollIntoView({
       behavior: "smooth",
       block: "center"
     });
 
-    returnFromAboutThumb.classList.add("last-viewed");
-
-    setTimeout(() => {
-      returnFromAboutThumb.classList.remove("last-viewed");
-    }, 4000);
-
-    returnFromAboutThumb = null;
+    highlightThumbnail(returnFromAboutThumb);
 
   } else {
 
     scrollToGalleryTop();
 
   }
+
+  // We've now used the remembered location,
+  // so clear it regardless of which button was clicked.
+  returnFromAboutThumb = null;
+  returnFromAboutCategory = null;
+
+} else {
+
+  scrollToGalleryTop();
+
+}
   });
 });
 
@@ -208,6 +255,7 @@ let visibleImages = [];
 let lastFocusedThumb = null;
 let currentImageElement = null;
 let returnFromAboutThumb = null;
+let returnFromAboutCategory = null;
 
 document.querySelectorAll(".photo-item img").forEach(img => {
 
@@ -378,6 +426,12 @@ function closeLightbox() {
   
 if (currentImageElement) {
 
+  returnFromAboutThumb = currentImageElement;
+
+  const activeButton = document.querySelector(".nav-btn.active");
+  returnFromAboutCategory =
+    activeButton ? activeButton.dataset.category : "all";
+
   const photoItem = currentImageElement.closest(".photo-item");
 
   photoItem.scrollIntoView({
@@ -401,7 +455,10 @@ if (currentImageElement) {
     lastFocusedThumb.focus();
     lastFocusedThumb = null;
   }
+currentImageElement = null;
 }
+
+
 
 nextBtn.addEventListener("click", (e) => {
   e.stopPropagation();
@@ -434,12 +491,9 @@ window.addEventListener("load", () => {
 
 aboutBtn.addEventListener("click", () => {
 
-  returnFromAboutThumb = currentImageElement;
-
   aboutSection.scrollIntoView({
     behavior: "smooth",
     block: "start"
   });
 
 });
-
