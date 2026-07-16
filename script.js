@@ -84,6 +84,9 @@ function highlightThumbnail(img) {
 hideSubBar();
 groups.forEach(g => g.style.display = "");
 
+const allButton = document.querySelector('.nav-btn[data-category="all"]');
+allButton.classList.add("active");
+
 navButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     const cat = btn.dataset.category;
@@ -485,14 +488,18 @@ lightbox.addEventListener("mousedown", (e) => {
 
 
 window.addEventListener("load", () => {
+
+  updateHeaderHeight();
+
   window.history.scrollRestoration = "manual";
   window.scrollTo(0, 0);
+
 });
 
 aboutBtn.addEventListener("click", () => {
 
   aboutSection.scrollIntoView({
-    behavior: "smooth",
+    behavior: "auto",
     block: "start"
   });
 

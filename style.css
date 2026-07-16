@@ -575,6 +575,7 @@ body.lightbox-open {
   margin:30px auto 48px;
   color:var(--subtle);
   font-size:1rem;
+  scroll-margin-top: var(--header-height);
 }
 .script-heading{
   font-family:var(--script);
